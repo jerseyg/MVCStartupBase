@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UserModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TokenAssociate">
+    <Key>
+      <PropertyRef Name="TokenAssociateId" />
+    </Key>
+    <Property Name="TokenAssociateId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="UpdatedAt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmailAddressHash" Type="varbinary" MaxLength="8000" StoreGeneratedPattern="Computed" />
+    <Property Name="Password" Type="nvarchar(max)" />
+    <Property Name="Salt" Type="nvarchar(max)" />
+    <Property Name="FirstName" Type="nvarchar(max)" />
+    <Property Name="LastName" Type="nvarchar(max)" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="UpdatedAt" Type="datetime" />
+  </EntityType>
+  <Association Name="FkUserId">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="TokenAssociate" Type="Self.TokenAssociate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TokenAssociate">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="UserModelStoreContainer">
+    <EntitySet Name="TokenAssociate" EntityType="Self.TokenAssociate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FkUserId" Association="Self.FkUserId">
+      <End Role="User" EntitySet="User" />
+      <End Role="TokenAssociate" EntitySet="TokenAssociate" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UserModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Guid" Nullable="false" />
+    <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EmailAddressHash" Type="Binary" MaxLength="8000" FixedLength="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Salt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="TokenAssociates" Relationship="UserModel.FkUserId" FromRole="User" ToRole="TokenAssociate" />
+  </EntityType>
+  <EntityContainer Name="UserEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="TokenAssociates" EntityType="UserModel.TokenAssociate" />
+    <AssociationSet Name="FkUserId" Association="UserModel.FkUserId">
+      <End Role="User" EntitySet="Users" />
+      <End Role="TokenAssociate" EntitySet="TokenAssociates" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TokenAssociate">
+    <Key>
+      <PropertyRef Name="TokenAssociateId" />
+    </Key>
+    <Property Name="TokenAssociateId" Type="Guid" Nullable="false" />
+    <Property Name="Token" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Guid" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="User" Relationship="UserModel.FkUserId" FromRole="TokenAssociate" ToRole="User" />
+  </EntityType>
+  <Association Name="FkUserId">
+    <End Type="UserModel.User" Role="User" Multiplicity="1" />
+    <End Type="UserModel.TokenAssociate" Role="TokenAssociate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TokenAssociate">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
