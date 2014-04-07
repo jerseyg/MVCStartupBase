@@ -5,6 +5,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVCStartup.Models.__User__;
+using MVCStartup.Controllers.Attributes;
 
 namespace MVCStartup.Controllers
 {
@@ -12,6 +14,7 @@ namespace MVCStartup.Controllers
     {
         //
         // GET: /App/
+        [ValidateUserLogin]
         public ActionResult Index()
         {
             return View();
@@ -21,6 +24,7 @@ namespace MVCStartup.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(User user)
         {
             UManager userManager = new UManager();
@@ -31,36 +35,57 @@ namespace MVCStartup.Controllers
                     userManager.Login(user.EmailAddress, user.Password);
                     return RedirectToAction("index");
                 }
-                catch(Exception ex)
+                catch (InvalidUserException ex)
+                {
+                    ModelState.AddModelError("Error", ex.Message);
+                    return View(); 
+                }
+                catch (UnknownErrorException ex)
                 {
                     ModelState.AddModelError("Error", ex.Message);
                     return View(); 
                 }
             }
-            return View();
+            else
+            {
+                return View();
+            }
+           
+        }
+        public ActionResult Logout()
+        {
+            USession.KillSession();
+            return RedirectToAction("Login");
         }
         public ActionResult Register()
         {
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(User user)
         {
             UManager userManager = new UManager();
-
-            try
+            if (ModelState.IsValid)
             {
-                userManager.CreateUser(user);
-                return RedirectToAction("Login");
+                try
+                {
+                    userManager.CreateUser(user);
+                    return RedirectToAction("Login");
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("Error", ex.Message);
+                    return View();
+                }
+                catch (UnknownErrorException ex)
+                {
+                    ModelState.AddModelError("Error", ex.Message);
+                    return View();
+                }
             }
-            catch (DbUpdateException ex)
+            else
             {
-                ModelState.AddModelError("Error", ex.Message);
-                return View();
-            }
-            catch (UnknownErrorException ex)
-            {
-                ModelState.AddModelError("Error", ex.Message);
                 return View();
             }
         }
