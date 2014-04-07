@@ -4,33 +4,51 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Web;
+using MVCStartup.Models.__Interfaces;
 
-namespace MVCStartup.Models
+namespace MVCStartup.Models.__User__
 {
     public class UManager : UserEntities
     {
         
-        public Boolean IsUserValid(string emailAddress)
-        {
-            IRetrieve<String> RetrieveDb = new RetrieveFromUserWithEmail();
-            try
-            {
-                RetrieveDb.RetrieveFrom(emailAddress);
-                return true;
-            }
-            catch (UnknownErrorException)
-            {
-                throw;
-            }
-        }
-        public Boolean IsUserValid(Guid UserId)
-        {
-           var query = (from user in Users
-                        where user.UserId == UserId
-                        select user).Count();
-           var isValid = query;
-           return (isValid != 0) ? true : false;
-        }
+        //public Boolean IsUserValid(string emailAddress)
+        //{
+        //    IRetrieveUser<String> RetrieveDb = new RetrieveFromUserWithEmail();
+        //    try
+        //    {
+        //        RetrieveDb.RetrieveFrom(emailAddress);
+        //        return true;
+        //    }
+        //    catch(InvalidUserException)
+        //    {
+        //        throw;
+        //    }
+        //    catch (UnknownErrorException)
+        //    {
+        //        throw;
+        //    }
+        //}
+        //public Boolean IsUserValid(Guid UserId)
+        //{
+        //    IRetrieveUser<Guid> RetrieveDb = new RetrieveFromUserWithGuid();
+        //    try
+        //    {
+        //        RetrieveDb.RetrieveFrom(UserId);
+        //        return true;
+        //    }
+        //    catch (InvalidUserException)
+        //    {
+        //        throw;
+        //    }
+        //    catch (UnknownErrorException)
+        //    {
+        //        throw;
+        //    }
+        //}
+        /// <summary>
+        /// Creates a user
+        /// </summary>
+        /// <param name="userModel">Model of the User Entity</param>
         public void CreateUser(User userModel)
         {
             IApplyDb<User> ApplyDb = new ApplyToNewUser();
@@ -47,48 +65,46 @@ namespace MVCStartup.Models
                 throw;
             }
         }
-        public User GetUserRow(string emailAddress)
-        {
-            var query = (from user in Users
-                         where user.EmailAddress == emailAddress
-                         select user).First();
-
-            return query;
-        }
+        /// <summary>
+        /// Logs in the user and creates a session.
+        /// </summary>
+        /// <param name="emailAddress">emailddress of the user</param>
+        /// <param name="password">password of the user</param>
         public void Login(string emailAddress, string password)
         {
+            IRetrieveDb<User, String> RetrieveDb = new RetrieveFromUserWithEmail();
             HashPassword hash = new HashPassword();
             string email = emailAddress;
             string nonHashedPassword = password;
 
-            var isValid = IsUserValid(email);
-            if (isValid)
+            try
             {
-                var user = GetUserRow(email);
-                var salt = user.Salt;
-                var hashedPassword = hash.HashString(nonHashedPassword, salt);
-                var userDbPassword = user.Password;
-
-                if (hashedPassword == userDbPassword)
+                var user = RetrieveDb.RetrieveFrom(email);
+                var hashPassword = hash.HashString(password);
+                var hashDbPassword = hash.HashString(user.Password, user.Salt);
+                var isValidPassword = HashPassword.ValidatePassword(password, user.Password);
+                if (isValidPassword)
                 {
+                    USession.CurrentUser.valid = 1;
                     USession.CurrentUser.UserId = user.UserId;
                     USession.CurrentUser.Username = email;
                     USession.CurrentUser.FirstName = user.FirstName;
                     USession.CurrentUser.LastName = user.LastName;
-                  
                 }
                 else
                 {
                     //password not match
                     throw new InvalidUserException();
                 }
-
             }
-            else
+            catch (Exception ex)
             {
-                //user not found
-                throw new InvalidUserException();
+                throw new UnknownErrorException(ex);
             }
+            
+
+
+
         }
       
     }
