@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TrackExceptionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TrackException">
+    <Key>
+      <PropertyRef Name="ExceptionId" />
+    </Key>
+    <Property Name="ExceptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HelpLink" Type="nvarchar(max)" />
+    <Property Name="HResult" Type="nvarchar(max)" />
+    <Property Name="InnerException" Type="nvarchar(max)" />
+    <Property Name="Message" Type="nvarchar(max)" />
+    <Property Name="Source" Type="nvarchar(max)" />
+    <Property Name="StackTrace" Type="nvarchar(max)" />
+    <Property Name="TargetSite" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityContainer Name="TrackExceptionModelStoreContainer">
+    <EntitySet Name="TrackException" EntityType="Self.TrackException" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

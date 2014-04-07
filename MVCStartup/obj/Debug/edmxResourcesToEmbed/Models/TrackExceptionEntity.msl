@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TrackExceptionModelStoreContainer" CdmEntityContainer="TrackExceptionEntities">
+    <EntitySetMapping Name="TrackExceptions">
+      <EntityTypeMapping TypeName="TrackExceptionModel.TrackException">
+        <MappingFragment StoreEntitySet="TrackException">
+          <ScalarProperty Name="ExceptionId" ColumnName="ExceptionId" />
+          <ScalarProperty Name="HelpLink" ColumnName="HelpLink" />
+          <ScalarProperty Name="HResult" ColumnName="HResult" />
+          <ScalarProperty Name="InnerException" ColumnName="InnerException" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+          <ScalarProperty Name="TargetSite" ColumnName="TargetSite" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
