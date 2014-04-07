@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MVCStartup.Models.__Interfaces;
 
 namespace MVCStartup.Models
 {
@@ -32,6 +33,7 @@ namespace MVCStartup.Models
     public class UnknownErrorException : CustomException
     {
         public UnknownErrorException() : base("An Unknown error occured, See database table TrackException for more info") { }
+        public UnknownErrorException(Exception ex) : base("An Unknown error occured, See database table TrackException for more info") { UploadException.Upload(ex); }
         public UnknownErrorException(string message) : base(message) { }
         public UnknownErrorException(string message, Exception inner) : base(message, inner) { }
         protected UnknownErrorException(
