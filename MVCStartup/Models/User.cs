@@ -23,9 +23,11 @@ namespace MVCStartup.Models
         [Key]
         public System.Guid UserId { get; set; }
         [EmailAddress]
+        [Required]
         public string EmailAddress { get; set; }
         public byte[] EmailAddressHash { get; set; }
         [DataType(DataType.Password)]
+        [Required]
         public string Password { get; set; }
         public string Salt { get; set; }
         public string FirstName { get; set; }
