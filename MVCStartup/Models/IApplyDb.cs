@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
-
+using MVCStartup.Models.__Interfaces;
 namespace MVCStartup.Models
 {
-    public interface IApplyDb<T>
-    {
-        void ApplyTo(T item);
 
-    }
     public class ApplyToNewUser : IApplyDb<User>
     {
         UserEntities db = new UserEntities();
@@ -31,9 +27,9 @@ namespace MVCStartup.Models
             {
                 throw new DbUpdateException("A duplicate email exists within the database");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new UnknownErrorException();
+                throw new UnknownErrorException(ex);
             }
         }
     }
