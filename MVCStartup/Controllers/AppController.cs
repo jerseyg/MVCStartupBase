@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using MVCStartup.Models.__User__;
 using MVCStartup.Controllers.Attributes;
+using System.Web.SessionState;
+using System.Web.Security;
 
 namespace MVCStartup.Controllers
 {
@@ -14,15 +16,19 @@ namespace MVCStartup.Controllers
     {
         //
         // GET: /App/
-        [ValidateUserLogin]
+        //[ValidateUserLogin]
+        [RequireHttps]
+        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
+        [RequireHttps]
         public ActionResult Login()
         {
             return View();
         }
+        [RequireHttps]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(User user)
@@ -32,6 +38,7 @@ namespace MVCStartup.Controllers
             {
                 try
                 {
+
                     userManager.Login(user.EmailAddress, user.Password);
                     return RedirectToAction("index");
                 }
@@ -55,6 +62,7 @@ namespace MVCStartup.Controllers
         public ActionResult Logout()
         {
             USession.KillSession();
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
         public ActionResult Register()
