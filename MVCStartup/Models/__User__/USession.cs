@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MVCStartup.Models.__User__
+namespace MVCStartup.Models
 {
-    /// <summary>
-    /// A session wrapper for the user
-    /// </summary>
     public class USession
     {
-        /// <summary>
-        /// Creats or retrieves the current Session
-        /// </summary>
         public static USession CurrentUser
         {
             get
@@ -28,18 +22,11 @@ namespace MVCStartup.Models.__User__
             }
         }
 
-        /// <summary>
-        /// Destroys the current session
-        /// </summary>
         public static void KillSession()
         {
-
-                USession.CurrentUser.SessionId = null;
                 HttpContext.Current.Session["__UserSession__"] = null;
                 HttpContext.Current.Session.Abandon();                         
         }
-
-        public string SessionId { get; set; }
         public Guid UserId { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }
