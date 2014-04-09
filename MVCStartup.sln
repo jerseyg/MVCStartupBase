@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCStartup", "MVCStartup\MVCStartup.csproj", "{B4DC9B70-14FD-4AC0-9CF9-7FEDFDF46E42}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCStartup.Tests", "MVCStartup.Tests\MVCStartup.Tests.csproj", "{163CEE4C-CABD-476B-9257-2C73EF01B599}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{B4DC9B70-14FD-4AC0-9CF9-7FEDFDF46E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4DC9B70-14FD-4AC0-9CF9-7FEDFDF46E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4DC9B70-14FD-4AC0-9CF9-7FEDFDF46E42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{163CEE4C-CABD-476B-9257-2C73EF01B599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{163CEE4C-CABD-476B-9257-2C73EF01B599}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{163CEE4C-CABD-476B-9257-2C73EF01B599}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{163CEE4C-CABD-476B-9257-2C73EF01B599}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
