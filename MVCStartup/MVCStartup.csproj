@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44301</IISExpressSSLPort>
+    <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Default1\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -121,14 +122,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Attributes\ValidateUserLogin.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomException.cs" />
-    <Compile Include="Models\__Interfaces\IApply.cs" />
     <Compile Include="Models\IApplyDb.cs" />
-    <Compile Include="Models\IRetrieveUser.cs" />
+    <Compile Include="Models\IRetrieveDb.cs" />
     <Compile Include="Models\PasswordHash.cs" />
     <Compile Include="Models\TokenAssociate.cs">
       <DependentUpon>UserEntity.tt</DependentUpon>
@@ -169,7 +168,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserEntity.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\__Interfaces\IRetrieve.cs" />
     <Compile Include="Models\__User__\UManager.cs" />
     <Compile Include="Models\__User__\USession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

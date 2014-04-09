@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using MVCStartup.Models.__Interfaces;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace MVCStartup.Models.__User__
 {
@@ -76,8 +74,8 @@ namespace MVCStartup.Models.__User__
         {
             IRetrieveDb<User, String> RetrieveDb = new RetrieveFromUserWithEmail();
             HashPassword hash = new HashPassword();
-            var email = emailAddress;
-            var nonHashedPassword = password;
+            string email = emailAddress;
+            string nonHashedPassword = password;
 
             try
             {
@@ -86,8 +84,8 @@ namespace MVCStartup.Models.__User__
                 var hashDbPassword = hash.HashString(user.Password, user.Salt);
                 var isValidPassword = HashPassword.ValidatePassword(password, user.Password);
                 if (isValidPassword)
-                {                              
-                    FormsAuthentication.SetAuthCookie(email, false);
+                {
+                    USession.CurrentUser.valid = 1;
                     USession.CurrentUser.UserId = user.UserId;
                     USession.CurrentUser.Username = email;
                     USession.CurrentUser.FirstName = user.FirstName;
@@ -98,10 +96,6 @@ namespace MVCStartup.Models.__User__
                     //password not match
                     throw new InvalidUserException();
                 }
-            }
-            catch (InvalidUserException ex)
-            {
-                throw ex;
             }
             catch (Exception ex)
             {
